@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mochila — run AI on your own laptop</title>
+<meta name="description" content="mochila is a kit of free tools that runs AI entirely on your machine: Ollama, the Pi agent, and skills written in plain text. No accounts, no subscription, works offline.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfaf7;
+    --fg: #211d18;
+    --muted: #6b6257;
+    --line: #e5e0d8;
+    --card: #ffffff;
+    --accent: #a05a1c;
+    --code: #f4f1ec;
+    --warn-bg: #fff7e6;
+    --warn-line: #f0d9a8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161311;
+      --fg: #ede8e2;
+      --muted: #a39a8f;
+      --line: #2e2925;
+      --card: #1e1a17;
+      --accent: #e0a458;
+      --code: #211d1a;
+      --warn-bg: #2a2416;
+      --warn-line: #4a3d1f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header, main, footer { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  header { padding-top: 40px; padding-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { font-weight: 650; font-size: 20px; letter-spacing: -0.01em; }
+  .brand span { color: var(--muted); font-weight: 400; }
+  nav a { margin-left: 16px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 40px; line-height: 1.12; letter-spacing: -0.02em; margin: 28px 0 12px; }
+  h2 { font-size: 22px; letter-spacing: -0.01em; margin: 40px 0 10px; }
+  h3 { font-size: 17px; margin: 22px 0 6px; }
+  p { margin: 10px 0; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 64ch; }
+  .cta { margin: 24px 0 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .button { display: inline-block; padding: 10px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font-weight: 550; }
+  .button.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .button:hover { text-decoration: none; filter: brightness(1.03); }
+  .note { margin: 20px 0; padding: 12px 14px; background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; font-size: 14.5px; }
+  pre { background: var(--code); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  :not(pre) > code { background: var(--code); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; font-size: 0.92em; }
+  ul, ol { padding-left: 20px; }
+  li { margin: 4px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 16px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .card h3 { margin-top: 0; }
+  .muted { color: var(--muted); }
+  .tag { display: inline-block; font-size: 12px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
+  .steps li { margin: 10px 0; }
+  footer { margin-top: 56px; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: var(--muted); text-decoration: underline; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">mochila <span>— the laptop AI kit</span></div>
+  <nav>
+    <a href="https://github.com/michael-borck/mochila">GitHub</a>
+    <a href="#setup">Setup</a>
+    <a href="#ladder">The ladder</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Your AI. Your laptop. No subscription.</h1>
+  <p class="lede">
+    mochila is a backpack of free tools that runs AI entirely on your machine: an engine to run
+    models, an agent that reads your files and follows your instructions, and skills written as
+    plain text. An evening to set up. Works on a train, a plane, or with the wifi off.
+  </p>
+  <p class="lede muted">Nothing you type leaves the machine. There is no account to make, because there is nobody to make one with.</p>
+  <div class="cta">
+    <a class="button primary" href="#setup">Set it up</a>
+    <a class="button" href="https://github.com/michael-borck/mochila">View source</a>
+  </div>
+  <div class="note">
+    Runs on modest hardware. A laptop from the last few years handles small models fine;
+    older machines just use smaller models (the setup covers which). macOS, Windows and Linux.
+  </div>
+
+  <h2>What is in the backpack</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Ollama <span class="tag">the engine</span></h3>
+      <p class="muted">Runs the model on your machine. One app, one command to pull a model. Everything else sits on top of it.</p>
+    </div>
+    <div class="card">
+      <h3>Pi <span class="tag">the agent</span></h3>
+      <p class="muted">A terminal agent with hands: it reads your files, edits them, and runs commands. Works relative to whatever folder you start it in.</p>
+    </div>
+    <div class="card">
+      <h3>Skills <span class="tag">plain text</span></h3>
+      <p class="muted">Folders of markdown that teach the agent how you want a job done. No plugin store, no lock-in: the skill travels, the tool can change.</p>
+    </div>
+    <div class="card">
+      <h3>Msty <span class="tag">optional GUI</span></h3>
+      <p class="muted">A desktop chat app that finds your local models on its own. For when you want conversations and document folders, not a terminal.</p>
+    </div>
+    <div class="card">
+      <h3>frugal <span class="tag">optional cloud</span></h3>
+      <p class="muted">When a task outgrows the laptop, <a href="https://github.com/michael-borck/frugal">frugal</a> wires in a verified fallback chain of free cloud models.</p>
+    </div>
+  </div>
+
+  <h2 id="setup">Setup: five steps, one evening</h2>
+  <ol class="steps">
+    <li>
+      <strong>Install Ollama.</strong> Download from <a href="https://ollama.com">ollama.com</a>, install, start it.
+      Then pull a model (about 5&nbsp;GB; use <code>qwen3:4b</code> on a smaller machine):
+      <pre><code>ollama pull qwen3:8b</code></pre>
+    </li>
+    <li>
+      <strong>Install Node.js LTS</strong> from <a href="https://nodejs.org">nodejs.org</a>. Open a
+      <em>new</em> terminal afterwards and check <code>npm --version</code> prints a number.
+    </li>
+    <li>
+      <strong>Connect the agent.</strong> One command installs Pi, wires it to your local
+      models, and launches it:
+      <pre><code>ollama launch pi</code></pre>
+    </li>
+    <li>
+      <strong>Add skills.</strong> Copy a skill folder from this repo to where agents look for them:
+      <pre><code>mkdir -p ~/.agents/skills
+cp -r skills/meeting-notes skills/plain-english ~/.agents/skills/</code></pre>
+      Then run <code>/reload</code> inside Pi and check the startup header lists them.
+    </li>
+    <li>
+      <strong>Optional extras.</strong> <a href="https://msty.ai">Msty</a> for a desktop chat, or
+      <a href="https://github.com/michael-borck/frugal">frugal</a> for the free-cloud rung.
+    </li>
+  </ol>
+  <p>Talk to the engine directly, any time:</p>
+  <pre><code>ollama run qwen3:8b "Say one sentence about this machine."</code></pre>
+
+  <h2 id="ladder">The ladder</h2>
+  <p>
+    When the subscription is the barrier, there are four places AI can live. Every rung speaks an
+    OpenAI-shaped API, so your tools don't change as you climb — what you learn at the bottom
+    still works at the top:
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h3>1 · Local, on your laptop <span class="tag">mochila</span></h3>
+      <p class="muted">Ollama + Pi. No keys, no internet, fully private. This page.</p>
+    </div>
+    <div class="card">
+      <h3>2 · Cloud, direct</h3>
+      <p class="muted">One provider, one model, your key. Simple, and the cost stays visible.</p>
+    </div>
+    <div class="card">
+      <h3>3 · Cloud, proxied <span class="tag">frugal</span></h3>
+      <p class="muted">9Router holds the keys; <code>free-best</code> fails over a verified chain of free models. <a href="https://github.com/michael-borck/frugal">frugal</a></p>
+    </div>
+    <div class="card">
+      <h3>4 · Shared, on campus <span class="tag">Puente</span></h3>
+      <p class="muted">A server your institution runs for everyone — the full local stack, no setup. <a href="https://locopuente.org">locopuente.org</a></p>
+    </div>
+  </div>
+
+  <h2>Where your words go</h2>
+  <p>
+    Every AI answer starts with what you type, so it is worth knowing who receives it. There are
+    three kinds of place:
+  </p>
+  <div class="grid">
+    <div class="card">
+      <h3>Your machine</h3>
+      <p class="muted">Nothing leaves. Not "we anonymise it", not "we don't store it": there is no transmission to have a policy about. This is rung one.</p>
+    </div>
+    <div class="card">
+      <h3>A server someone runs</h3>
+      <p class="muted">A campus, a workplace, a lab. Your words sit on their machine, under their rules. Fine when you trust the operator; worth asking what their log policy is.</p>
+    </div>
+    <div class="card">
+      <h3>A cloud provider</h3>
+      <p class="muted">Their servers, their retention policy, their jurisdiction. Read it, or assume the worst and act accordingly.</p>
+    </div>
+  </div>
+  <p>
+    mochila is the option where trust is not required, because there is nothing to trust.
+    Move up the ladder when a task outgrows the laptop — and know exactly what you handed over
+    when you do.
+  </p>
+
+  <h2>Docs</h2>
+  <ul>
+    <li><a href="https://github.com/michael-borck/mochila/blob/main/README.md">README</a> — the kit in detail, skills, troubleshooting</li>
+    <li><a href="https://github.com/earendil-works/pi">Pi documentation</a> — the agent, in depth</li>
+    <li><a href="https://github.com/michael-borck/frugal">frugal</a> — the free-cloud rung</li>
+    <li><a href="https://locopuente.org">LocoPuente</a> — the campus bridge, part of <a href="https://locolabo.org">LocoLabo</a></li>
+  </ul>
+</main>
+
+<footer>
+  <p>
+    MIT licensed. Not affiliated with Ollama, Pi, Msty or 9Router.
+    <a href="https://github.com/michael-borck/mochila">github.com/michael-borck/mochila</a>
+  </p>
+</footer>
+</body>
+</html>
