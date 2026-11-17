@@ -60,7 +60,7 @@ cp -r skills/meeting-notes skills/plain-english ~/.agents/skills/
 
 Inside Pi, run `/reload` and check the startup header lists them.
 
-**5. Optional extras.** [Msty](https://msty.ai) finds your local Ollama models automatically — install it, open it, pick a model, chat. [frugal](https://github.com/michael-borck/frugal) adds the free-cloud rung.
+**5. Optional extras.** [Msty](https://msty.ai) finds your local Ollama models automatically — install it, open it, pick a model, chat. [frugal](https://github.com/michael-borck/frugal) adds the free-cloud rung. Prefer a GUI studio over a terminal agent? [Portable AI Studio](https://github.com/techjarves/Portable-Local-Studio) bundles chat, image generation and voice into one zero-setup offline app.
 
 ## Skills
 
